@@ -8,7 +8,7 @@ var guesses = "";
 var guess_count = MAX_GUESSES;
 var gameOver = false;
 
-
+// building a clue string
 function makeClue() {
   var clueString = "";
   for (var i = 0; i < word.length; i++) {
@@ -22,7 +22,7 @@ function makeClue() {
   return clueString;
 }
 
-
+//updates page
 function updatePage(message) {
   
   var clue = document.getElementById("clue");
@@ -51,45 +51,46 @@ function newGame() {
 }
 
 
+//deals with the guesses of letters
 function guessLetter() {
   var input = document.getElementById("guess");
   var letter = (input.value || "").toLowerCase();
   input.value = "";
   input.focus();
 
-  
+  //won't allow guesses before the word is chosen 
   if (word === "") {
     updatePage("Press New game first!");
     return;
   }
 
-  
+  //stops game if it's already guessed 
   if (gameOver) {
     updatePage("Game is over. Press New game.");
     return;
   }
 
-  
+  // use every letter in alphabet 
   if (letter.length !== 1 || letter < "a" || letter > "z") {
     updatePage("Please enter one letter (A–Z).");
     return;
   }
 
-
+// prevents duplicating letters
   if (guesses.indexOf(letter) >= 0) {
     updatePage("You already guessed that letter.");
     return;
   }
 
-  
+  // records the guess
   guesses += letter;
 
-  
+  // wrong guess reduces the tries
   if (word.indexOf(letter) < 0) {
     guess_count = Math.max(0, guess_count - 1);
   }
 
-
+//updates page
   updatePage();
 
   
